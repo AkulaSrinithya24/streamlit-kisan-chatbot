@@ -14,7 +14,7 @@ if st.button("Send") and user_input:
     st.session_state.chat_history.append(("You", user_input))
     try:
         resp = requests.post(
-            "http://192.168.0.11:5000/chat",
+            "https://kisan-backend-production.up.railway.app/chat",  # <-- Your live Railway backend!
             json={"message": user_input},
             timeout=10
         )
