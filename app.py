@@ -8,14 +8,18 @@ st.info("Supports English, Telugu, and Hindi queries. All backend NLP logic runs
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
+# Add language selector
+language = st.selectbox("Select language", ["English", "Telugu", "Hindi"], index=0)
+lang_code = {"English": "en", "Telugu": "te", "Hindi": "hi"}[language]
+
 user_input = st.text_input("Type your message", key="input")
 
 if st.button("Send") and user_input:
     st.session_state.chat_history.append(("You", user_input))
     try:
         resp = requests.post(
-            "https://kisan-backend-production.up.railway.app/chat",  # <-- Your live Railway backend!
-            json={"message": user_input},
+            "https://kisan-backend-production.up.railway.app/chat",
+            json={"message": user_input, "language": lang_code},  # Send language
             timeout=10
         )
         if resp.status_code == 200:
